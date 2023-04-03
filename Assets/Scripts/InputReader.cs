@@ -3,6 +3,7 @@
 public class InputReader : MonoBehaviour {
     [SerializeField] private Camera Camera;
     [SerializeField] private GridView GridView;
+    [SerializeField] private GameFlow GameFlow;
 
     private float _leftClickTime;
     private ClickType _clickType = ClickType.Click;
@@ -56,46 +57,46 @@ public class InputReader : MonoBehaviour {
 
     
     private void OnLeftHold() {
-        if (TryGetHexIndexUnderMouse(out var index)) {
-            GridView.OnLeftHold(index);
+        if (TryGetHexIndexUnderMouse(out var hex)) {
+            GridView.OnLeftHold(hex.Model.index);
         }
     }
 
     private void OnLeftClick() {
-        if (TryGetHexIndexUnderMouse(out var index)) {
-            GridView.OnLeftClick(index);
+        if (TryGetHexIndexUnderMouse(out var hex)) {
+            GameFlow.OnTileClick(hex);
         } else if  (TryGetCharUnderMouse(out var character)) {
-            GridView.OnLeftClick(character);
+            GameFlow.OnCharClick(character);
         }
     }
     private void OnShiftLeftClick() {
-        if (TryGetHexIndexUnderMouse(out var index)) {
-            GridView.OnShiftLeftClick(index);
+        if (TryGetHexIndexUnderMouse(out var hex)) {
+            GridView.OnShiftLeftClick(hex.Model.index);
         }
     }
     private void OnCtrlLeftClick() {
-        if (TryGetHexIndexUnderMouse(out var index)) {
-            GridView.OnCtrlLeftClick(index);
+        if (TryGetHexIndexUnderMouse(out var hex)) {
+            GridView.OnCtrlLeftClick(hex.Model.index);
         }
     }
 
     private void OnRightClick() {
-        GridView.OnRightClick();
+        GameFlow.OnRightClick();
     }
 
-    private bool TryGetHexIndexUnderMouse(out Vector2Int index) {
+    private bool TryGetHexIndexUnderMouse(out HexController hex) {
         var isHit = Physics.Raycast(Camera.ScreenPointToRay(Input.mousePosition), out var hit);
         if (!isHit) {
-            index = Vector2Int.zero;
+            hex = null;
             return false;
         }
 
-        if (!hit.transform.parent.gameObject.TryGetComponent<HexView>(out var hex)) {
-            index = Vector2Int.zero;
+        if (!hit.transform.parent.gameObject.TryGetComponent<HexView>(out var view)) {
+            hex = null;
             return false;
         }
 
-        index = hex.index;
+        hex = view.controller;
         return true;
     }
 

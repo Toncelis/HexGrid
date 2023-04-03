@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7786a0bb0e6b71f47a0f0c4c7d2f3dc2, type: 3}
+  m_Name: TileInfoLibrary
+  m_EditorClassIdentifier: 
+  TileInfoLib:
+  - _type: 0
+    _movementCostByType: 010000000100000002000000ffffffffffffffff
+    _minHeight: 0.3
+    _maxHeight: 0.4
+    _hexReference:
+      m_AssetGUID: 5c8ad57e86b8ef94d806d7d2efde4dc4
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - _type: 1
+    _movementCostByType: 020000000100000003000000ffffffffffffffff
+    _minHeight: 0
+    _maxHeight: 0.1
+    _hexReference:
+      m_AssetGUID: ad648d1ec64eba844a9a074371980adc
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - _type: 2
+    _movementCostByType: 010000000200000001000000ffffffffffffffff
+    _minHeight: 0.8
+    _maxHeight: 1
+    _hexReference:
+      m_AssetGUID: 6be1245c41559b9488b60b4990e476e6
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - _type: 3
+    _movementCostByType: ffffffffffffffffffffffff0100000001000000
+    _minHeight: 0
+    _maxHeight: 0
+    _hexReference:
+      m_AssetGUID: 832b4f5fc26a62e4ea3c60d3ef7ce330
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - _type: 4
+    _movementCostByType: ffffffffffffffffffffffff0200000001000000
+    _minHeight: 0
+    _maxHeight: 0
+    _hexReference:
+      m_AssetGUID: 110dc7ad684492847b7a663459d2a9a4
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

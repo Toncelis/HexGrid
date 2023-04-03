@@ -42,6 +42,36 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cff05a2b8233d234cb485539b51e06ce
+    m_Address: Assets/Settings/TileInfoLibrary.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 110dc7ad684492847b7a663459d2a9a4
+    m_Address: Assets/Prefabs/DeepWaterTile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad648d1ec64eba844a9a074371980adc
+    m_Address: Assets/Prefabs/GroundTile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6be1245c41559b9488b60b4990e476e6
+    m_Address: Assets/Prefabs/HighGroundTile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 832b4f5fc26a62e4ea3c60d3ef7ce330
+    m_Address: Assets/Prefabs/ShallowWaterTile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a04077d545088db40a55ea21dc51c3d2
+    m_Address: Assets/Prefabs/WaterCharacter.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 93df20c75ec4d27469de7e37db81bd46, type: 2}
   m_SchemaSet:

@@ -1,7 +1,9 @@
+using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using ColorUtility = Unity.VisualScripting.ColorUtility;
 
 public class HexView : MonoBehaviour {
     private const float APPEARANCE_DROP = 3;
@@ -11,11 +13,14 @@ public class HexView : MonoBehaviour {
     private const float APPEARANCE_NORMALIZING_TIME = 0.1f;
     
     private HexController _controller;
+    public HexController controller => _controller;
     [SerializeField] private AssetReference HexSelection;
     [SerializeField] private AssetReference HexAvailability;
 
     [SerializeField] private TMP_Text TextX;
     [SerializeField] private TMP_Text TextY;
+
+    [SerializeField] private TMP_Text MovementCost;
 
     [SerializeField] private Renderer MainRenderer;
     
@@ -87,12 +92,26 @@ public class HexView : MonoBehaviour {
         GameObject.Destroy(this);
     }
 
-    public void Free() {
-        Debug.Log($"free {index}");
-        MainRenderer.material.DOColor(Color.white, 1);
+    public void ShowAsAvailable(int movementCost) {
+        MovementCost.DOColor(Color.black, 0.2f);
+        MainRenderer.material.DOColor(Color.yellow, 1);
     }
-
-    public void Occupy() {
-        MainRenderer.material.DOColor(Color.red, 1);
+    public void Refresh() {
+        Color color;
+        switch (_controller.Model.state) {
+            case HexStateType.Occupied:
+                color = Color.white;
+                break;
+            case HexStateType.Empty:
+                color = Color.white;
+                break;
+            case HexStateType.Blocked:
+                color = Color.gray;
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+        MovementCost.DOColor(new Color(0, 0, 0, 0), 0.2f);
+        MainRenderer.material.DOColor(color, 1);
     }
 }

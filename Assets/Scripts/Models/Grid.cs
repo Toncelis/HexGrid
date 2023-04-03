@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Grid {
@@ -29,5 +30,10 @@ public class Grid {
 
     public bool HasHex(Vector2Int index) {
         return _hexes.ContainsKey(index);
+    }
+
+    public HexController GetRandomHex(HexStateType state) {
+        var hexesInCorrectState = _hexes.Values.Where(hex => hex.Model.state == state).ToList();
+        return hexesInCorrectState[Random.Range(0, hexesInCorrectState.Count)];
     }
 }

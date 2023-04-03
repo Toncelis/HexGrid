@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Object = UnityEngine.Object;
 
 public class HexController {
     private const string STANDARD_TILE_KEY = "Assets/Prefabs/GrassTile.prefab";
@@ -8,10 +10,13 @@ public class HexController {
     private Hex _model;
     private HexView _view;
 
+    private bool _setupComplete = false;
+    private Action _onSetupComplete = () => {};
+
     public Hex Model => _model;
 
-    public HexController(Vector2Int index, float height, HexType type) {
-        _model = new Hex(index, height, type);
+    public HexController(Vector2Int index, TileInfo info) {
+        _model = new Hex(index, info.height, info);
     }
 
     public AsyncOperationHandle<GameObject> InstantiateHex(Transform gridHolder) {
@@ -25,8 +30,12 @@ public class HexController {
     }
 
     private AsyncOperationHandle<GameObject> StartHexInstantiation(Transform gridHolder) {
-        var hexHandle = Addressables.LoadAssetAsync<GameObject>(STANDARD_TILE_KEY);
-        hexHandle.Completed +=  (hexHandle) => OnHexLoadComplete(hexHandle, gridHolder);
+        var hexHandle = Addressables.LoadAssetAsync<GameObject>(_model.reference);
+        hexHandle.Completed +=  (hexHandle) => {
+            OnHexLoadComplete(hexHandle, gridHolder);
+            _setupComplete = true;
+            _onSetupComplete();
+        };
         return hexHandle;
 
     }
@@ -34,7 +43,7 @@ public class HexController {
     private void OnHexLoadComplete(AsyncOperationHandle<GameObject> handle, Transform gridHolder) {
         var hexGameObject = Object.Instantiate(handle.Result, gridHolder);
         _view = hexGameObject.GetComponent<HexView>();
-        _view.Setup(this, HexType.standard);
+        _view.Setup(this, HexType.Grass);
     }
 
     public void ClearMarks() {
@@ -55,11 +64,30 @@ public class HexController {
 
     public void Occupy(CharController character) {
         _model.Occupy(character);
-        _view.Occupy();
+        Refresh();
     }
     public void Free() {
         _model.Free();
-        _view.Free();
+        Refresh();
+    }
+
+    public void ShowAsAvailable(int movementCost) {
+        _view.ShowAsAvailable(movementCost);
+    }
+    
+    public void Refresh() {
+        if (!_setupComplete) {
+            _onSetupComplete += Refresh;
+            return;
+        }
+        _view.Refresh();
+    }
+
+    public void PointTo(HexController targetHex) {
+        var handle = Addressables.InstantiateAsync("Assets/Prefabs/Arrow.prefab");
+        handle.Completed += (handle) => {
+            handle.Result.GetComponent<ArrowView>().Setup(this.position, targetHex.position);
+        };
     }
 
     public Vector3 position => GridExt.GetPosition(Model.index) + Vector3.up * Model.height;

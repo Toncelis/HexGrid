@@ -1,19 +1,37 @@
-﻿using UnityEngine.AddressableAssets;
+﻿using System;
+using UnityEngine.AddressableAssets;
 
 public class CharController {
     private HexController _myHex;
     private CharView _view;
     private Char _model;
-    
+
+    public Char model => _model;
+
     public CharController(HexController hex) {
-        var handle = Addressables.InstantiateAsync("Assets/Prefabs/Character.prefab");
-        _myHex = hex;
+        string refAddress;
+        switch (hex.Model.type) {
+            case HexType.Grass:
+            case HexType.Ground:
+            case HexType.HighGround:
+                refAddress = "Assets/Prefabs/Character.prefab";
+                break;
+            case HexType.ShallowWater:
+            case HexType.DeepWater:
+                refAddress = "Assets/Prefabs/WaterCharacter.prefab";
+                break;
+            default:
+                throw new NotImplementedException();
+        }
         
+        var handle = Addressables.InstantiateAsync(refAddress);
+        _myHex = hex;
+
         handle.Completed += (handle) => {
             _view = handle.Result.GetComponent<CharView>();
             _view.Setup(this, _myHex);
         };
-        
+
         _model = new Char(_myHex);
         _myHex.Occupy(this);
     }
@@ -23,12 +41,6 @@ public class CharController {
         _view.MoveTo(newHex);
         newHex.Occupy(this);
         _model.SetHex(newHex);
-        var handle = Addressables.InstantiateAsync("Assets/Prefabs/Arrow.prefab");
-        var from = _myHex.position;
-        var to = newHex.position;
-        handle.Completed += (handle) => {
-            handle.Result.GetComponent<ArrowView>().Setup(from, to);
-        };
         _myHex = newHex;
     }
 
@@ -43,4 +55,6 @@ public class CharController {
             _view.ClearMark();
         }
     }
+
+    public HexController hex => _myHex;
 }

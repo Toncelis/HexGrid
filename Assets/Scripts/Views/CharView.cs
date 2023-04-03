@@ -1,10 +1,12 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CharView : MonoBehaviour {
     private CharController _controller;
     public CharController controller => _controller;
-    [SerializeField] private Renderer MainRenderer;
+    [SerializeField] private List<Renderer> Renderers;
 
     public void Setup(CharController controller, HexController hex) {
         _controller = controller;
@@ -18,13 +20,19 @@ public class CharView : MonoBehaviour {
     }
 
     public void MoveTo(HexController newHex) {
+        transform.DOLookAt(newHex.position.WithY(transform.position.y), 1f);
         transform.DOJump(newHex.position, 1f, 1, 2f);
     }
+    
     public void ClearMark() {
-        MainRenderer.material.DOColor(Color.white, 1);
+        foreach (var render in Renderers) {
+            render.material.DOColor(Color.white, 1);
+        }
     }
 
     public void Mark() {
-        MainRenderer.material.DOColor(Color.blue, 1);
+        foreach (var render in Renderers) {
+            render.material.DOColor(Color.blue, 1);
+        }
     }
 }

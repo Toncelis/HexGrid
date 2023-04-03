@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public enum HexType {
-    standard
+    Grass,
+    Ground,
+    HighGround,
+    ShallowWater,
+    DeepWater
 }
